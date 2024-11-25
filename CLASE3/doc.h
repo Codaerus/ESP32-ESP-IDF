@@ -60,6 +60,16 @@ typedef enum {
     GPIO_FLOATING,                  /*!< Pad floating           */
 } gpio_pull_mode_t;
 
+typedef enum {
+    GPIO_PULLUP_DISABLE = 0x0,     /*!< Disable GPIO pull-up resistor */
+    GPIO_PULLUP_ENABLE = 0x1,      /*!< Enable GPIO pull-up resistor */
+} gpio_pullup_t;
+
+typedef enum {
+    GPIO_PULLDOWN_DISABLE = 0x0,   /*!< Disable GPIO pull-down resistor */
+    GPIO_PULLDOWN_ENABLE = 0x1,    /*!< Enable GPIO pull-down resistor  */
+} gpio_pulldown_t;
+
 typedef struct {
     uint64_t pin_bit_mask;          /*!< GPIO pin: set with bit mask, each bit maps to a GPIO */
     gpio_mode_t mode;               /*!< GPIO mode: set input/output mode                     */
