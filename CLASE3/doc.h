@@ -88,6 +88,22 @@ typedef struct {
     gpio_int_type_t intr_type;      /*!< GPIO interrupt type                                  */
 } gpio_config_t;
 
+esp_err_t gpio_pullup_en(gpio_num_t gpio_num)
+/*Enable pull-up on GPIO.
+    Parameters:
+    gpio_num – GPIO number
+    Returns:
+        ESP_OK Success - ESP_ERR_INVALID_ARG Parameter error
+*/
+
+esp_err_t gpio_pulldown_en(gpio_num_t gpio_num)
+/*  Enable pull-down on GPIO.
+    Parameters:
+    gpio_num – GPIO number 
+    Returns:
+    ESP_OK Success - ESP_ERR_INVALID_ARG Parameter error
+    gpio_pulldown_en
+*/
 esp_err_t gpio_config(const gpio_config_t *pGPIOConfig);
 /**
     * Configura los pines de acuero a la configuración de su parametro (la estructura gpio_config_t)
