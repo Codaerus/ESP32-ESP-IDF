@@ -61,6 +61,16 @@ typedef enum {
 } gpio_pull_mode_t;
 
 typedef enum {
+    GPIO_INTR_DISABLE = 0,     /*!< Disable GPIO interrupt                             */
+    GPIO_INTR_POSEDGE = 1,     /*!< GPIO interrupt type : rising edge                  */
+    GPIO_INTR_NEGEDGE = 2,     /*!< GPIO interrupt type : falling edge                 */
+    GPIO_INTR_ANYEDGE = 3,     /*!< GPIO interrupt type : both rising and falling edge */
+    GPIO_INTR_LOW_LEVEL = 4,   /*!< GPIO interrupt type : input low level trigger      */
+    GPIO_INTR_HIGH_LEVEL = 5,  /*!< GPIO interrupt type : input high level trigger     */
+    GPIO_INTR_MAX,
+} gpio_int_type_t;
+
+typedef enum {
     GPIO_PULLUP_DISABLE = 0x0,     /*!< Disable GPIO pull-up resistor */
     GPIO_PULLUP_ENABLE = 0x1,      /*!< Enable GPIO pull-up resistor */
 } gpio_pullup_t;
