@@ -1,0 +1,245 @@
+[
+    {
+        "id": "ba30cbdd83663193",
+        "type": "debug",
+        "z": "0694f0570c8b2c4d",
+        "name": "debug 47",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 400,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "98c0f773bfc7d587",
+        "type": "mqtt in",
+        "z": "0694f0570c8b2c4d",
+        "name": "",
+        "topic": "canalx",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "e22217858070027a",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 210,
+        "y": 180,
+        "wires": [
+            [
+                "302f1698f2c31ccc"
+            ]
+        ]
+    },
+    {
+        "id": "a97290071cc93830",
+        "type": "mqtt out",
+        "z": "0694f0570c8b2c4d",
+        "name": "",
+        "topic": "canalx",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "e22217858070027a",
+        "x": 390,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "277b2b24e0765f1f",
+        "type": "inject",
+        "z": "0694f0570c8b2c4d",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "a",
+        "payloadType": "str",
+        "x": 210,
+        "y": 260,
+        "wires": [
+            [
+                "a97290071cc93830"
+            ]
+        ]
+    },
+    {
+        "id": "e64f8bbaa9429572",
+        "type": "inject",
+        "z": "0694f0570c8b2c4d",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "b",
+        "payloadType": "str",
+        "x": 210,
+        "y": 320,
+        "wires": [
+            [
+                "a97290071cc93830"
+            ]
+        ]
+    },
+    {
+        "id": "c60bc3a3683d769e",
+        "type": "ui_gauge",
+        "z": "0694f0570c8b2c4d",
+        "name": "",
+        "group": "ae78c41cc126f332",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "gauge",
+        "label": "units",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "1000",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 450,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "302f1698f2c31ccc",
+        "type": "function",
+        "z": "0694f0570c8b2c4d",
+        "name": "function 35",
+        "func": "let msg2 = {};\n\nlet pot1 = msg.payload.split(\",\")[0];\nlet pot2 = msg.payload.split(\",\")[1];\nmsg.payload = pot1;\nmsg2.payload = pot2;\nreturn [msg,msg2];",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 270,
+        "y": 100,
+        "wires": [
+            [
+                "c60bc3a3683d769e"
+            ],
+            [
+                "2c88eed7c77dfdcd",
+                "ba30cbdd83663193"
+            ]
+        ]
+    },
+    {
+        "id": "2c88eed7c77dfdcd",
+        "type": "ui_gauge",
+        "z": "0694f0570c8b2c4d",
+        "name": "",
+        "group": "ae78c41cc126f332",
+        "order": 6,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "gauge",
+        "label": "units",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "1000",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 450,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "e22217858070027a",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "localhost",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "ae78c41cc126f332",
+        "type": "ui_group",
+        "name": "SENSORES",
+        "tab": "7747e86d4999a1a1",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "7747e86d4999a1a1",
+        "type": "ui_tab",
+        "name": "PROYECTO IOT",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    }
+]
