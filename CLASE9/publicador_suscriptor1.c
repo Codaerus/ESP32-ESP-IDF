@@ -53,6 +53,9 @@ esp_err_t mqtt_event_handler_cb(esp_mqtt_event_handle_t event){
                 break;
             case MQTT_EVENT_DATA:
                 printf("Recibimos algo\n");
+                break;
+            default:
+                break;
         }
 
     return ESP_OK;
@@ -60,6 +63,7 @@ esp_err_t mqtt_event_handler_cb(esp_mqtt_event_handle_t event){
 
 void mqtt_event_handler(void *arg,esp_event_base_t event_base,int32_t event_id,void* event_data){
     esp_mqtt_event_handle_t event = event_data;
+    //esp_mqtt_client_handle_t client = (esp_mqtt_client_handle_t)arg;
     mqtt_event_handler_cb(event);
 }
 
@@ -69,7 +73,7 @@ void mqtt_app_start(void){
     };
 
     client =  esp_mqtt_client_init(&mqtt_cfg);
-    esp_mqtt_client_register_event(client,MQTT_EVENT_ANY,mqtt_event_handler,NULL);
+    esp_mqtt_client_register_event(client,MQTT_EVENT_ANY,mqtt_event_handler,NULL);//(void* )client
     /*
         Se utiliza para registrar un manejador de eventos para el cliente MQTT, eso permite llamar una función cada vez que ocurre un
         evento MQTT, como la conexión al broker, recepción de mensajes, la publicación, etc
@@ -80,7 +84,9 @@ void mqtt_app_start(void){
                     (*esp_event_handler_t)(void* event_handler_arg,esp_event_base_t event_base,int32_t event_id,void* event_data);
                         Parametros:
                             void* event_handler_arg: Es un puntero opcional que se usa para pasar argumentos
-
+                            esp_event_base_t event_base:
+                            int32_t event_id: Identificador de evento
+                            void* event_dat: Contiene información del evento
     */
     esp_mqtt_client_start(client);
     xTaskCreate(mqtt_publish_task, "mqtt_publish_task", 2048,(void* )client,5,NULL);
@@ -96,3 +102,4 @@ void app_main() {
     wifi_init_sta();  // Inicializa y conecta el WiFi en modo STA con IP estática
     mqtt_app_start();
 }
+
