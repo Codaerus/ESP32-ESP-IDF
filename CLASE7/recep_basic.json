@@ -1,0 +1,223 @@
+[
+    {
+        "id": "6be599267606fa21",
+        "type": "inject",
+        "z": "725ba0f1024d03c7",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "hola mundo",
+        "payloadType": "str",
+        "x": 230,
+        "y": 140,
+        "wires": [
+            [
+                "d1653592a67d48f4"
+            ]
+        ]
+    },
+    {
+        "id": "d1653592a67d48f4",
+        "type": "debug",
+        "z": "725ba0f1024d03c7",
+        "name": "debug 52",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 460,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "162842f9a9ac6dd7",
+        "type": "ui_gauge",
+        "z": "725ba0f1024d03c7",
+        "name": "",
+        "group": "4c951def314acfd5",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "gauge",
+        "label": "units",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "4095",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 530,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "7f7a04bc3f794b5a",
+        "type": "ui_slider",
+        "z": "725ba0f1024d03c7",
+        "name": "",
+        "label": "slider",
+        "tooltip": "",
+        "group": "4c951def314acfd5",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "outs": "all",
+        "topic": "topic",
+        "topicType": "msg",
+        "min": 0,
+        "max": "100",
+        "step": 1,
+        "className": "",
+        "x": 330,
+        "y": 400,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "8ae45afbbb918517",
+        "type": "serial in",
+        "z": "725ba0f1024d03c7",
+        "name": "",
+        "serial": "57c7b515e5cf5d5d",
+        "x": 130,
+        "y": 280,
+        "wires": [
+            [
+                "5c45bf6ba758d74e",
+                "30b9b2a3a250de61"
+            ]
+        ]
+    },
+    {
+        "id": "e6e69c7ab42a0801",
+        "type": "ui_gauge",
+        "z": "725ba0f1024d03c7",
+        "name": "",
+        "group": "4c951def314acfd5",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "gauge",
+        "label": "units",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "4095",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 530,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "5c45bf6ba758d74e",
+        "type": "function",
+        "z": "725ba0f1024d03c7",
+        "name": "function 41",
+        "func": "msg.payload = msg.payload.split(\",\")[0];\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 310,
+        "y": 260,
+        "wires": [
+            [
+                "162842f9a9ac6dd7"
+            ]
+        ]
+    },
+    {
+        "id": "30b9b2a3a250de61",
+        "type": "function",
+        "z": "725ba0f1024d03c7",
+        "name": "function 42",
+        "func": "msg.payload = msg.payload.split(\",\")[1];\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 310,
+        "y": 300,
+        "wires": [
+            [
+                "e6e69c7ab42a0801"
+            ]
+        ]
+    },
+    {
+        "id": "4c951def314acfd5",
+        "type": "ui_group",
+        "name": "sensores",
+        "tab": "71061e1b8e4f302e",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "57c7b515e5cf5d5d",
+        "type": "serial-port",
+        "name": "",
+        "serialport": "COM15",
+        "serialbaud": "9600",
+        "databits": "8",
+        "parity": "none",
+        "stopbits": "1",
+        "waitfor": "",
+        "dtr": "none",
+        "rts": "none",
+        "cts": "none",
+        "dsr": "none",
+        "newline": "\\n",
+        "bin": "false",
+        "out": "char",
+        "addchar": "",
+        "responsetimeout": "10000"
+    },
+    {
+        "id": "71061e1b8e4f302e",
+        "type": "ui_tab",
+        "name": "MONITOREO",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    }
+]
