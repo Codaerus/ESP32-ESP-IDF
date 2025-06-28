@@ -19,6 +19,9 @@ void app_main(void)
     uart_config_t uart_config = {
       .baud_rate = 9600,
       .data_bits = UART_DATA_8_BITS,
+      .parity = UART_PARITY_DISABLE,
+      .stop_bits = UART_STOP_BITS_1,
+      .flow_ctrl = UART_HW_FLOWCTRL_DISABLE
     };
     uart_driver_install(UART_NUM_0,1024,1024,0,NULL,0);
     uart_param_config(UART_NUM_0,&uart_config);
@@ -26,8 +29,8 @@ void app_main(void)
     while (1) {
         adc_oneshot_read(adc, ADC_CHANNEL_6, &val1); // GPIO34
         adc_oneshot_read(adc, ADC_CHANNEL_7, &val2); // GPIO35
-        snprintf(msg,30,"%d,%d",val1,val2);
+        snprintf(msg,30,"%d,%d\n",val1,val2);
         uart_write_bytes(UART_NUM_0,msg,strlen(msg));
-        vTaskDelay(pdMS_TO_TICKS(1000));
+        vTaskDelay(1000/portTICK_PERIOD_MS);
     }
 }
