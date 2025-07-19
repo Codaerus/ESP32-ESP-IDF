@@ -47,6 +47,7 @@ void mqtt_publish_task(void *param){
 esp_err_t mqtt_event_handler_cb(esp_mqtt_event_handle_t event){
   switch(event->event_id){
     case MQTT_EVENT_CONNECTED:
+      printf("Conectado al broker\n");
       esp_mqtt_client_subscribe(client,"canaly",0);
       break;
     case MQTT_EVENT_DATA:
@@ -58,7 +59,7 @@ esp_err_t mqtt_event_handler_cb(esp_mqtt_event_handle_t event){
   return ESP_OK;
 }
 void mqtt_event_handler(void* arg,esp_event_base_t event_base,int32_t event_id,void* event_data){
-  esp_mqtt_event_handle_t event = event_base;
+  esp_mqtt_event_handle_t event = (esp_mqtt_event_handle_t)event_data;
   mqtt_event_handler_cb(event);
 }
 void mqtt_app_start(){
