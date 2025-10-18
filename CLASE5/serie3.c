@@ -18,8 +18,6 @@ void app_main(void)
     uart_param_config(UART_NUM_0, &uart_config);
 
     uint8_t data;
-    const char *msg = "Hola\n";
-    uart_write_bytes(UART_NUM_0,msg,strlen(msg));
     while(1){
         if(uart_read_bytes(UART_NUM_0,&data,1,100/portTICK_PERIOD_MS))
             {
