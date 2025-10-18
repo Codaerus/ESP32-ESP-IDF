@@ -1,36 +1,43 @@
 #include <stdio.h>
-#include "freertos/FreeRTOS.h"
-#include "freertos/task.h"
-#include "esp_adc/adc_oneshot.h"
+#include <freertos/FreeRTOS.h>
+#include <freertos/task.h>
 #include "driver/uart.h"
 #include "string.h"
+#include <esp_adc/adc_oneshot.h>
 
 void app_main(void)
-{   //ACONFIGURACIÓN ADC
+{
+    /************************* ADC *****************/
     adc_oneshot_unit_handle_t adc;
-    adc_oneshot_unit_init_cfg_t init = { .unit_id = ADC_UNIT_1 }; //inicia ADC1
-    adc_oneshot_new_unit(&init, &adc);
-
-    adc_oneshot_chan_cfg_t cfg = { .bitwidth = ADC_BITWIDTH_12, .atten = ADC_ATTEN_DB_11 };
-    adc_oneshot_config_channel(adc, ADC_CHANNEL_6, &cfg);
-    adc_oneshot_config_channel(adc, ADC_CHANNEL_7, &cfg);
-    int val1=0,val2=0;
-    //CONFIGURACIÓN UART
-    uart_config_t uart_config = {
-      .baud_rate = 9600,
-      .data_bits = UART_DATA_8_BITS,
-      .parity = UART_PARITY_DISABLE,
-      .stop_bits = UART_STOP_BITS_1,
-      .flow_ctrl = UART_HW_FLOWCTRL_DISABLE
+    adc_oneshot_unit_init_cfg_t init = {
+        .unit_id = ADC_UNIT_1
     };
-    uart_driver_install(UART_NUM_0,1024,1024,0,NULL,0);
-    uart_param_config(UART_NUM_0,&uart_config);
+    adc_oneshot_new_unit(&init,&adc);
+    adc_oneshot_chan_cfg_t cfg = {
+        .atten = ADC_ATTEN_DB_12,
+        .bitwidth = ADC_BITWIDTH_12  //0-4095
+    };
+    adc_oneshot_config_channel(adc,ADC_CHANNEL_6,&cfg); //GPIO34 
+    adc_oneshot_config_channel(adc,ADC_CHANNEL_4,&cfg); //GPIO32
+    uint16_t pot1, pot2;
+    /***********************************************/
+
+    uart_config_t uart_config = {
+        .baud_rate = 115200,
+        .data_bits = UART_DATA_8_BITS,
+        .parity = UART_PARITY_DISABLE,
+        .stop_bits = UART_STOP_BITS_1,
+        .flow_ctrl = UART_HW_FLOWCTRL_DISABLE
+    };
+    uart_driver_install(UART_NUM_0,256,256,0,NULL,0);
+    uart_param_config(UART_NUM_0, &uart_config);
+
     char msg[30];
-    while (1) {
-        adc_oneshot_read(adc, ADC_CHANNEL_6, &val1); // GPIO34
-        adc_oneshot_read(adc, ADC_CHANNEL_7, &val2); // GPIO35
-        snprintf(msg,30,"%d,%d\n",val1,val2);
-        uart_write_bytes(UART_NUM_0,msg,strlen(msg));
+    while(1){
+        adc_oneshot_read(adc,ADC_CHANNEL_6,&pot1); //GPIO34 
+        adc_oneshot_read(adc,ADC_CHANNEL_4,&pot2); //GPIO32
+        snprintf(msg,30,"%d,%d\n",pot1,pot2); // "100,30"
+        uart_write_bytes(UART_NUM_0, msg, strlen(msg));
         vTaskDelay(1000/portTICK_PERIOD_MS);
     }
 }
