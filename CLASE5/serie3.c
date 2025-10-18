@@ -8,15 +8,20 @@ void app_main(void)
     gpio_set_direction(GPIO_NUM_2,GPIO_MODE_OUTPUT);
 
     uart_config_t uart_config = {
-        .baud_rate = 9600
+        .baud_rate = 115200,
+        .data_bits = UART_DATA_8_BITS,
+        .parity = UART_PARITY_DISABLE,
+        .stop_bits = UART_STOP_BITS_1,
+        .flow_ctrl = UART_HW_FLOWCTRL_DISABLE
     };
     uart_driver_install(UART_NUM_0,256,256,0,NULL,0);
     uart_param_config(UART_NUM_0, &uart_config);
 
     uint8_t data;
-
+    const char *msg = "Hola\n";
+    uart_write_bytes(UART_NUM_0,msg,strlen(msg));
     while(1){
-        if(uart_read_bytes(GPIO_NUM_0,&data,1,100/portTICK_PERIOD_MS))
+        if(uart_read_bytes(UART_NUM_0,&data,1,100/portTICK_PERIOD_MS))
             {
                 if(data == 'a'){
                     gpio_set_level(GPIO_NUM_2,1);
